@@ -1,3 +1,12 @@
 .vscode
 demo/
 __pycache__
+test.yaml
+triggers.yaml
+create-ingress.yaml
+ingress-run.yaml
+secret.yaml
+webhook-run.yaml
+tester/
+ulmaceae/
+gitlab-test/
