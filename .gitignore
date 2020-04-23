@@ -1,4 +1,5 @@
 .vscode
+.kube/
 demo/
 __pycache__
 test.yaml
@@ -7,6 +8,7 @@ create-ingress.yaml
 ingress-run.yaml
 secret.yaml
 webhook-run.yaml
+gitlab-push-listener.yaml
 tester/
 ulmaceae/
 gitlab-test/

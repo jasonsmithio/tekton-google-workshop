@@ -50,7 +50,7 @@ metadata:
   name: gitlab-secret
 type: Opaque
 stringData:
-  gitlabToken: abcde
+  gitlabToken: ACCESS-TOKEN
 ---
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
@@ -64,7 +64,7 @@ spec:
       interceptors:
         - gitlab:
             secretRef:
-              secretName: gitlab-secret
+              secretName: gitlabsecret
               secretKey: gitlabToken
             eventTypes:
               - Push Hook  # Only push events
