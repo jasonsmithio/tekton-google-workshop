@@ -1,5 +1,5 @@
 <!-- https://github.com/tektoncd/triggers/tree/master/examples/gitlab -->
-<!-- https://github.com/GoogleCloudPlatform/golang-samples/tree/master/getting-started/bookshelf -->
+<!-- ttps://github.com/GoogleCloudPlatform/golang-samples/tree/master/getting-started/bookshelfh -->
 <!-- https://cloud.google.com/go/getting-started/ -->
 
 # Environment
@@ -21,4 +21,19 @@ sh ./scripts/workshop-staging.sh
 
 ```bash
 kubectl get el gitlab-listener -o=jsonpath='{.status.configuration.generatedName}'
+```
+
+Let's get our endpoint
+
+```bash
+export INGRESS=$(kubectl get ingress gitlab-tekton-ingress -o=jsonpath='{.status.loadBalancer.ingress[0].ip}{"\n"}')
+```
+
+```bash
+curl -v \
+-H 'X-GitLab-Token: '${SECRET}  \
+-H 'X-Gitlab-Event: Push Hook' \
+-H 'Content-Type: application/json' \
+--data-binary "@tekton/gitlab/gitlab-push-event.json" \
+http://$INGRESS
 ```
