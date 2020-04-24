@@ -9,7 +9,7 @@ ingress-run.yaml
 secret.yaml
 webhook-run.yaml
 gitlab-push-listener.yaml
-tester/
-ulmaceae/
 gitlab-test/
 staging/
+knative/
+tekton-test/
