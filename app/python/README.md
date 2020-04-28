@@ -11,3 +11,10 @@ Let's build the bookshelf app. First we need to setup a Firestore.
 2. From the Select a Firestore mode screen, click Select Native Mode.
 3. Select a location for your Firestore database. This location setting is the default Google Cloud resource location for your Cloud project . This location is used for Google Cloud services in your Cloud project that require a location setting, specifically, your default Cloud Storage bucket and your Cloud Run app.
 4. Click Create Database
+
+## Dockerfile
+
+Next we will build a Dockerfile. In the `python` directory, execute this command:
+
+```bash
+docker build -t 

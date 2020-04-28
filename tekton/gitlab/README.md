@@ -60,3 +60,22 @@ Next
 git clone https://gitlab.${DOMAIN}.xip.io/root/tekton-workshop.git
 cd tekton-workshop
 ```
+
+```bash
+gcloud iam service-accounts create tekton-gcp \
+  --display-name "Tekton Service Account for Google Cloud"
+```
+
+```bash
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member serviceAccount:tekton-gcp@${PROJECT_ID}.iam.gserviceaccount.com --role roles/compute.storageAdmin
+```
+
+```bash
+gcloud iam service-accounts keys create ~/key.json \
+  --iam-account tekton-gcp@${PROJECT_ID}.iam.gserviceaccount.com
+  ```
+
+```bash
+kubectl create secret generic kaniko-secret --from-file=$HOME/key.json
+```
+
