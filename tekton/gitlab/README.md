@@ -78,4 +78,3 @@ gcloud iam service-accounts keys create ~/key.json \
 ```bash
 kubectl create secret generic kaniko-secret --from-file=$HOME/key.json
 ```
-

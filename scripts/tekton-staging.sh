@@ -45,5 +45,5 @@ if ! [ -x "$(command -v tkn)" ]; then
         echo "unknown OS"
     fi
 else 
-    echo "GoLang is already installed. Let's move on"
+    echo "TKN is already installed. Let's move on"
 fi

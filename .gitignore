@@ -8,9 +8,10 @@ create-ingress.yaml
 ingress-run.yaml
 secret.yaml
 webhook-run.yaml
-gitlab-push-listener.yaml
 gitlab-test/
 staging/
 knative/
 tekton-test/
 gitlab-orig/
+test-tekton/
+tekton-old/
