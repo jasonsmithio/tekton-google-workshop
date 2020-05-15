@@ -1,5 +1,4 @@
-.vscode
-.kube/
+.vscode/
 demo/
 __pycache__
 test.yaml

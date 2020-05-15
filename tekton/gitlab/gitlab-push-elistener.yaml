@@ -1,13 +1,13 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
-  name: gitlab-echo-template
+  name: gitlab-template
 spec:
   params:
     - name: gitrevision
     - name: gitrepositoryurl
   resourcetemplates:
-    - apiVersion: tekton.dev/v1alpha1
+    - apiVersion: tekton.dev/v1beta1
       kind: PipelineResource
       metadata:
         name: git-source-$(uid)
@@ -18,11 +18,13 @@ spec:
           value: $(params.gitrevision)
         - name: url
           value: $(params.gitrepositoryurl)
-    - apiVersion: tekton.dev/v1alpha1
+    - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
         generateName: gitlab-run-
       spec:
+        pipelineRef:
+          name: gitlab-pipeline
         taskSpec:
           inputs:
             resources:

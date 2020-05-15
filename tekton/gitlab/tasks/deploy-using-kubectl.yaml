@@ -1,33 +1,36 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: deploy-using-kubectl
 spec:
-  inputs:
-    resources:
-      - name: git-source
+  params:
+    - name: path
+      type: string
+      description: Path to the manifest to apply
+    - name: yamlPathToImage
+      type: string
+      description: |
+        The path to the image to replace in the yaml manifest (arg to yq)
+  resources:
+    inputs:
+      - name: source
         type: git
-    params:
-      - name: pathToYamlFile
-        description: The path to the yaml file to deploy within the git source
-      - name: imageUrl
-        description: Url of image repository
-      - name: imageTag
-        description: Tag of the images to be used.
-        default: "latest"
+      - name: image
+        type: image
   steps:
-    - name: update-yaml
-      image: alpine
-      command: ["sed"]
+    - name: replace-image
+      image: mikefarah/yq
+      command: ["yq"]
       args:
+        - "w"
         - "-i"
-        - "-e"
-        - "s;__IMAGE__;$(inputs.params.imageUrl):$(inputs.params.imageTag);g"
-        - "/workspace/git-source/$(inputs.params.pathToYamlFile)"
+        - "$(params.path)"
+        - "$(params.yamlPathToImage)"
+        - "$(resources.inputs.image.url)"
     - name: run-kubectl
       image: lachlanevenson/k8s-kubectl
       command: ["kubectl"]
       args:
         - "apply"
         - "-f"
-        - "/workspace/git-source/$(inputs.params.pathToYamlFile)"
+        - "$(params.path)"
