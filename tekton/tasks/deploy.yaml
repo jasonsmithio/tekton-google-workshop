@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  # The name of the task
+  name: build-test-app-task
+spec:
+  params:
+  resources:
+    inputs:
+    - name: image
+      type: image
+      # The output resource(s) of the task, such as an image built from the source code
+  steps:
+    # Each step of the task
