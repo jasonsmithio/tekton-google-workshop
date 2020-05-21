@@ -1,0 +1,85 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: gitlab-template
+spec:
+  params:
+    - name: gitrevision
+    - name: gitrepositoryurl
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineResource
+      metadata:
+        name: git-source-$(uid)
+      spec:
+        type: git
+        params:
+        # The revision/branch of the repository
+        - name: revision
+          value: master
+        # The URL of the repository
+        - name: url
+          value: YOUR_GITLAB_HERE
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineResource
+      metadata:
+        name: image-source-$(uid)
+      spec:
+        type: image
+        params:
+        - name: url
+          value: gcr.io/YOUR-GCP-PROJECT/example-app         
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        name: el-build-test-deploy-app-run
+      spec:
+        pipelineRef:
+          name: build-test-deploy-app
+        resources:
+        - name: git
+          resourceRef:
+            name: example-git
+        - name: image
+          resourceRef:
+            name: example-image
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: gitlab-push-binding
+spec:
+  params:
+    - name: gitrevision
+      value: $(body.checkout_sha)
+    - name: gitrepositoryurl
+      value: $(body.repository.git_http_url)
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitlab-secret
+type: Opaque
+stringData:
+  gitlabToken: ACCESS_TOKEN
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: gitlab-push-elistener
+spec:
+  # from examples/role-resources/servicaccount.yaml
+  serviceAccountName: tekton-triggers-example-sa
+  triggers:
+    - name: gitlab-push-events-trigger
+      interceptors:
+        - gitlab:
+            secretRef:
+              secretName: gitlab-secret
+              secretKey: gitlabToken
+            eventTypes:
+              - Push Hook  # Only push events
+      bindings:
+        - name: gitlab-push-binding
+      template:
+        name: gitlab-template
