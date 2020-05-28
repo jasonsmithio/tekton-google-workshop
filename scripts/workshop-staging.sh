@@ -6,7 +6,7 @@
 export REGION='us-central1'
 export ZONE='us-central1-f'
 export CLUSTER_NAME='gitlab-cluster'
-
+export PROJ_NUMBER=$(gcloud projects list --filter="${PROJECT_ID}" --format="value(PROJECT_NUMBER)")
 
 # execute GitLab commands commands
 # Using https://gitlab.com/gitlab-org/charts/gitlab/-/tree/master/scripts
