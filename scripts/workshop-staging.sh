@@ -49,6 +49,9 @@ export PASSWORD=$(kubectl get secret gitlab-gitlab-initial-root-password -ojsonp
 # Connect to cluster
 gcloud container clusters get-credentials gitlab-cluster --zone $ZONE --project $PROJECT
 
+#Install Nginx Ingress
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/cloud/deploy.yaml
+
 
 
 kubectl create clusterrolebinding cluster-admin-binding \
