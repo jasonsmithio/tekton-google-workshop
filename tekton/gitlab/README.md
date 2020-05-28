@@ -9,14 +9,20 @@ export PROJECT='<project name>'
 export EMAIL='<your email>'
 ```
 
-
-
+"Setup Clusters"
 ```bash
 chmod +x ./scripts/workshop-staging.sh
 sh ./scripts/workshop-staging.sh
 ```
 
+Deploy Tekton
+```bash
+chmod +x ./scripts/tekton-staging.sh
+sh ./scripts/tekton-staging.sh
+```
+
 Install NGINX Ingress
+
 ```bash
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/cloud/deploy.yaml
 ```

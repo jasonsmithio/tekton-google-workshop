@@ -17,16 +17,16 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/ngin
 sleep 30
 
 #Install service accounts
-kubectl apply -f ../tekton/gitlab/role-resources/triggerbinding-roles
-kubectl apply -f ../tekton/gitlab/role-resources/secret.yaml
-kubectl apply -f ../tekton/gitlab/role-resources/serviceaccount.yaml
+#kubectl apply -f ../tekton/gitlab/role-resources/triggerbinding-roles
+#kubectl apply -f ../tekton/gitlab/role-resources/secret.yaml
+#kubectl apply -f ../tekton/gitlab/role-resources/serviceaccount.yaml
 
 ## Install Event Listener
-kubectl apply -f ../tekton/gitlab/gitlab-push-listener.yaml
+#kubectl apply -f ../tekton/gitlab/gitlab-push-listener.yaml
 
 
 # Install GitLab Ingress
-kubectl apply -f ../tekton/gitlab/gitlab-ingress.yaml
+#kubectl apply -f ../tekton/gitlab/gitlab-ingress.yaml
 
 #Install TKN CLI tool
 mkdir ~/.tkncli
