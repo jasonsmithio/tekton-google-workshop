@@ -1,4 +1,4 @@
-#!/bin/bash env
+#!/usr/bin/env bash
 
 # Install Tekton Pipelines
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
