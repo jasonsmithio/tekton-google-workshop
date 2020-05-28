@@ -30,7 +30,7 @@ export EXTERNAL_IP=$(gcloud compute addresses describe ${CLUSTER_NAME}-external-
 echo 'your EXTERNAL IP is'$EXTERNAL_IP
 
 export DOMAIN=$EXTERNAL_IP'.xip.io'
-echo 'your DOMAIN is'$DOMAIN
+echo 'your DOMAIN is '$DOMAIN
 
 
 helm repo add gitlab https://charts.gitlab.io/
@@ -44,9 +44,7 @@ sleep 60
 
 export PASSWORD=$(kubectl get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
 
-echo 'your password is: ' $PASSWORD
-echo 'your username is: root'
-echo 'Please visit https://gitlab.'$DOMAIN 'in your browser'
+
 
 # Connect to cluster
 gcloud container clusters get-credentials gitlab-cluster --zone $ZONE --project $PROJECT
@@ -58,6 +56,9 @@ kubectl create clusterrolebinding cluster-admin-binding \
 --user=$(gcloud config get-value core/account)
 
 #Give your compute service account IAM access to Secret Manager
-gcloud projects add-iam-policy-binding $PROJECT_ID --member serviceAccount:$PROJ_NUMBER-compute@developer.gserviceaccount.com --role roles/secretmanager.admin
+gcloud projects add-iam-policy-binding $PROJECT --member serviceAccount:$PROJ_NUMBER-compute@developer.gserviceaccount.com --role roles/secretmanager.admin
 
 
+echo 'your password is: ' $PASSWORD
+echo 'your username is: root'
+echo 'Please visit https://gitlab.'$DOMAIN 'in your browser'
