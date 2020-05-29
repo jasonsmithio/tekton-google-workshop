@@ -4,6 +4,12 @@
 ## https://docs.gitlab.com/charts/installation/deployment.html
 
 environment () {
+  HELMPATH=$(which helm)
+  if [ "${HELMPATH}" == "" ]; then
+    echo "You must have helm installed and have done a 'helm init' to run this script."
+    exit 1
+  fi
+
   # Set values that will be overwritten if env.sh exists
   echo "Setting up the environment..."
   export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -18,7 +24,8 @@ environment () {
   echo "Writing ${DIR}/env.sh..."
   cat > ${DIR}/env.sh << EOF
 export REGION=${REGION}
-export ZONE=${ZONEREGION}
+export ZONE=${ZONE}
+export EMAIL=${EMAIL}
 export CLUSTER_NAME=${CLUSTER_NAME}
 export PROJECT_ID=${PROJECT_ID}
 export PROJECT_NUMBER=${PROJECT_NUMBER}
@@ -30,7 +37,15 @@ EOF
 
 #./gitlab/gke_bootstrap_script.sh up
 
-gitlab_project_setup {
+gitlab_project_setup () {
+
+  set +x; echo "Enabling APIs..."
+  set -x
+  gcloud services enable compute.googleapis.com
+  gcloud services enable containerregistry.googleapis.com
+  gcloud services enable container.googleapis.com
+  set +x; echo; set -x
+
   set +x; echo "Creating gitlab cluster..."
   set -x
   gcloud container clusters create gitlab-cluster \
@@ -40,9 +55,9 @@ gitlab_project_setup {
       --num-nodes 3\
       --enable-ip-alias \
       --project ${PROJECT_ID}
-  set +x; echo; set -x
+  set +x; echo
 
-
+  echo "Waiting for cluster bring up..."
   sleep 45
 
   set +x; echo "Setting up external ip..."
@@ -91,7 +106,7 @@ gitlab_project_setup {
   --clusterrole=cluster-admin \
   --user=$(gcloud config get-value core/account)
   #Give your compute service account IAM access to Secret Manager
-  gcloud projects add-iam-policy-binding $PROJECT --member serviceAccount:$PROJ_NUMBER-compute@developer.gserviceaccount.com --role roles/secretmanager.admin
+  gcloud projects add-iam-policy-binding ${PROJECT_ID} --member serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com --role roles/secretmanager.admin
   set +x; echo
 
   echo 'your password is: ' $PASSWORD
