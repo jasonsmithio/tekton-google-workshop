@@ -23,14 +23,9 @@ set +x; echo
 # Ingress NGINX Mandatory file
 set +x; echo "Install Nginx Ingress Mandatory file.."
 set -x
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.30.0/deploy/static/mandatory.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/cloud/deploy.yaml
 set +x; echo
 
-# Ingress NGINX GKE
-set +x; echo "Install Nginx Ingress GKE.."
-set -x
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.30.0/deploy/static/provider/cloud-generic.yaml
-set +x; echo
 
 sleep 30
 

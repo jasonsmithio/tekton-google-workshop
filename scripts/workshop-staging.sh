@@ -15,7 +15,6 @@ environment () {
   export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
   export REGION='us-central1'
   export ZONE='us-central1-f'
-  export EMAIL='your@email.address'
   export CLUSTER_NAME='gitlab-cluster'
   export PROJECT_ID=$(gcloud config get-value project)
   export PROJECT_NUMBER=$(gcloud projects list --filter="${PROJECT_ID}" --format="value(PROJECT_NUMBER)")
@@ -25,7 +24,6 @@ environment () {
   cat > ${DIR}/env.sh << EOF
 export REGION=${REGION}
 export ZONE=${ZONE}
-export EMAIL=${EMAIL}
 export CLUSTER_NAME=${CLUSTER_NAME}
 export PROJECT_ID=${PROJECT_ID}
 export PROJECT_NUMBER=${PROJECT_NUMBER}
