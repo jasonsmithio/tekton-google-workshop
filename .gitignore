@@ -1,5 +1,6 @@
 .vscode/
 demo/
+env.sh
 __pycache__
 test.yaml
 triggers.yaml
