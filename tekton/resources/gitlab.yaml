@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineResource
 metadata:
   # The name of the pipeline resource
-  name: example-github
+  name: example-git
 spec:
   type: git
   params:
@@ -11,4 +11,4 @@ spec:
     value: master
   # The URL of the repository
   - name: url
-    value: https://https://github.com/TheJaySmith/tekton-google-workshop.git
+    value: YOUR_GITLAB_HERE

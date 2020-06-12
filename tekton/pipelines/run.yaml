@@ -8,7 +8,7 @@ spec:
   resources:
   - name: git
     resourceRef:
-      name: example-git
+      name: example-github
   - name: image
     resourceRef:
       name: example-image
