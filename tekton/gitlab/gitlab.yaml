@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineResource
 metadata:
   # The name of the pipeline resource
-  name: example-gitlab
+  name: gitlab
 spec:
   type: git
   params:

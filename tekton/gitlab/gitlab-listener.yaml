@@ -28,7 +28,7 @@ spec:
       - name: contenttype
         value: $(params.contenttype)
       resources:
-      - name: git-source
+      - name: gitlab
         resourceSpec:
           type: git
           params:
@@ -36,6 +36,9 @@ spec:
             value: $(params.gitrevision)
           - name: url
             value: $(params.gitrepositoryurl)
+      - name: gitlab-image
+        resourceRef:
+          name: gitlab-image
 ---
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding

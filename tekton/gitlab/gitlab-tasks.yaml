@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: build-deploy-app-task
+  name: build-gitlab-app-task
 spec:
   params:
     - name: dockerfilePath
@@ -21,7 +21,7 @@ spec:
       - name: git
         type: git
     outputs:
-      - name: image
+      - name: gitlab-image
         type: image
   steps:
   - name: pytest
@@ -43,12 +43,12 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   # The name of the task
-  name: deploy-deploy-app-task
+  name: deploy-gitlab-app-task
 spec:
   params:
   resources:
     inputs:
-    - name: image
+    - name: gitlab-image
       type: image
       # The output resource(s) of the task, such as an image built from the source code
   steps:
