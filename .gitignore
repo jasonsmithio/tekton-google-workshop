@@ -15,3 +15,6 @@ tekton-test/
 gitlab-orig/
 test-tekton/
 tekton-old/
+gitlab-old/
+onelistener.yaml
+listener.yaml
