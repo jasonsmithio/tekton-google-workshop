@@ -14,10 +14,9 @@ spec:
     - name: run
       image: gcr.io/cloud-builders/gcloud
       args:
-      - beta
       - run
       - deploy
-      - default
+      - my-example-app
       - --image=$(inputs.resources.image.url)
       - --region=us-central1
       - --platform=managed

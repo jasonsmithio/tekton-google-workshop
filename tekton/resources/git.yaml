@@ -11,4 +11,4 @@ spec:
     value: master
   # The URL of the repository
   - name: url
-    value: https://https://github.com/TheJaySmith/tekton-google-workshop.git
+    value: https://github.com/TheJaySmith/tekton-google-workshop.git

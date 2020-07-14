@@ -37,4 +37,4 @@ spec:
         value: /builder/home/.docker/
     command:
       - /kaniko/executor
-    args: ["/kaniko/executor", "--dockerfile=$(params.dockerfilePath)", "--destination=$(resources.outputs.image.url", "--context=$(params.kanikoContextPath)"]
+    args: ["--dockerfile=$(params.dockerfilePath)", "--destination=$(resources.outputs.image.url)", "--context=$(params.kanikoContextPath)"]
