@@ -29,10 +29,6 @@ set +x; echo
 
 sleep 30
 
-#
-set +x; echo "Setting IAM permissions for Cloud Run.."
-set -x gcloud beta run services add-iam-policy-binding  --member=allUsers --role=roles/run.invoker default --platform=managed --region=us-central1
-set +x; echo 
 
 #Install service accounts
 #kubectl apply -f ../tekton/gitlab/role-resources/triggerbinding-roles

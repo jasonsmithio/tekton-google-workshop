@@ -112,6 +112,22 @@ gitlab_project_setup () {
   echo 'Please visit https://gitlab.'$DOMAIN 'in your browser'
 }
 
+# Grant the Cloud Run Admin role to the Cloud Build service account
+set +x; echo "Setting IAM Binding for Cloud Build and Cloud Run.."
+
+set -x 
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member "serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+  --role roles/cloudbuild.builds.editor
+
+# Grant the IAM Service Account User role to the Cloud Build service account on the Cloud Run runtime service account
+set -x
+gcloud iam service-accounts add-iam-policy-binding \
+  $PROJECT_ID-compute@developer.gserviceaccount.com \
+  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+  --role="roles/iam.serviceAccountUser"
+set +x; echo
+
 #Main
 environment
 gitlab_project_setup

@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   # The name of the task
-  name: deploy-test-app-task
+  name: bind-iam-app-task
 spec:
   params:
   resources:
@@ -10,17 +10,6 @@ spec:
     - name: image
       type: image
       # The output resource(s) of the task, such as an image built from the source code
-  steps:
-    - name: run
-      image: gcr.io/cloud-builders/gcloud
-      args:
-      - run
-      - deploy
-      - my-example-app
-      - --image=$(inputs.resources.image.url)
-      - --region=us-central1
-      - --platform=managed
-      - --allow-unauthenticated
   steps:
     - name: iam
       image: gcr.io/cloud-builders/gcloud
