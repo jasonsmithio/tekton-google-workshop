@@ -106,14 +106,6 @@ gitlab_project_setup () {
   #Give your compute service account IAM access to Secret Manager
   gcloud projects add-iam-policy-binding ${PROJECT_ID} --member serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com --role roles/secretmanager.admin
 
-  set +x; clear
-  set +x; echo
-
-
-
-  echo 'your password is: ' $PASSWORD
-  echo 'your username is: root'
-  echo 'Please visit https://gitlab.'$DOMAIN 'in your browser'
 }
 
 gcp_bindings () {
@@ -128,7 +120,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 # Grant the IAM Service Account User role to the Cloud Build service account on the Cloud Run runtime service account
 set -x
 gcloud iam service-accounts add-iam-policy-binding \
-  $PROJECT_ID-compute@developer.gserviceaccount.com \
+  ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com \
   --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
   --role="roles/iam.serviceAccountUser"
 set +x; echo
@@ -138,3 +130,13 @@ set +x; echo
 environment
 gitlab_project_setup
 gcp_bindings
+
+
+set +x; clear
+set +x; echo
+
+
+
+echo 'your password is: ' $PASSWORD
+echo 'your username is: root'
+echo 'Please visit https://gitlab.'$DOMAIN 'in your browser'
