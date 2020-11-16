@@ -81,7 +81,7 @@ gitlab_project_setup () {
     --set certmanager-issuer.email=${EMAIL} \
     --set global.hosts.externalIP=${EXTERNAL_IP}
   set +x; echo
-    
+
   sleep 60
 
   export PASSWORD=$(kubectl get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
@@ -91,11 +91,11 @@ gitlab_project_setup () {
   set -x;
   gcloud container clusters get-credentials gitlab-cluster --zone ${ZONE} --project ${PROJECT_ID}
   set +x; echo
-  
+
   #Install Nginx Ingress
-  set +x; echo "Install Nginx Ingress.."
+  set +x; echo "Install NGINX Ingress.."
   set -x
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/cloud/deploy.yaml
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
   set +x; echo
 
   set +x; echo "Set up bindings.."
@@ -105,17 +105,22 @@ gitlab_project_setup () {
   --user=$(gcloud config get-value core/account)
   #Give your compute service account IAM access to Secret Manager
   gcloud projects add-iam-policy-binding ${PROJECT_ID} --member serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com --role roles/secretmanager.admin
+
+  set +x; clear
   set +x; echo
+
+
 
   echo 'your password is: ' $PASSWORD
   echo 'your username is: root'
   echo 'Please visit https://gitlab.'$DOMAIN 'in your browser'
 }
 
+gcp_bindings () {
 # Grant the Cloud Run Admin role to the Cloud Build service account
 set +x; echo "Setting IAM Binding for Cloud Build and Cloud Run.."
 
-set -x 
+set -x
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member "serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
   --role roles/cloudbuild.builds.editor
@@ -127,7 +132,9 @@ gcloud iam service-accounts add-iam-policy-binding \
   --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
   --role="roles/iam.serviceAccountUser"
 set +x; echo
+}
 
 #Main
 environment
 gitlab_project_setup
+gcp_bindings

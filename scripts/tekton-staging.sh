@@ -2,28 +2,34 @@
 
 [[ -f "${DIR}/env.sh" ]] && echo "Importing environment from ${DIR}/env.sh..." && . ${DIR}/env.sh
 
-set +x; echo "Connect to cluster.."
+set +x; echo "Connect to cluster..."
 set -x;
 gcloud container clusters get-credentials gitlab-cluster --zone ${ZONE} --project ${PROJECT_ID}
 set +x; echo
   
 # Install Tekton Pipelines
-set +x; echo "Install Tekton Pipelines.."
+set +x; echo "Install Tekton Pipelines..."
 set -x
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 set +x; echo
 
 # Install Tekton Triggers
-set +x; echo "Install Tekton Triggers.."
+set +x; echo "Install Tekton Triggers..."
 set -x
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml
 set +x; echo
 
-
-# Ingress NGINX Mandatory file
-set +x; echo "Install Nginx Ingress Mandatory file.."
+# Install Tekton Dashboard
+set +x; echo "Install Tekton Dashboard..."
 set -x
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/cloud/deploy.yaml
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/latest/tekton-dashboard-release.yaml
+set +x; echo
+
+
+# Ingress NGINX Ingress file
+set +x; echo "Install NGINX Ingress..."
+set -x
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
 set +x; echo
 
 
@@ -50,15 +56,15 @@ if ! [ -x "$(command -v tkn)" ]; then
     echo "***** Installing TKN CLI v0.8.0 *****"
     if [[ "$OSTYPE"  == "linux-gnu" ]]; then
         set -x;
-        curl -LO https://github.com/tektoncd/cli/releases/download/v0.8.0/tkn_0.8.0_Linux_x86_64.tar.gz
-        sudo tar xvzf tkn_0.8.0_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
+        curl -LO https://github.com/tektoncd/cli/releases/download/v0.13.1/tkn_0.13.1_Linux_x86_64.tar.gz
+        sudo tar xvzf tkn_0.13.1_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
         set +x;
 
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         set -x;
-        curl -LO https://github.com/tektoncd/cli/releases/download/v0.8.0/tkn_0.8.0_Darwin_x86_64.tar.gz
-        sudo tar xvzf tkn_0.8.0_Darwin_x86_64.tar.gz -C /usr/local/bin tkn
+curl -LO https://github.com/tektoncd/cli/releases/download/v0.13.1/tkn_0.13.1_Darwin_x86_64.tar.gz
+        sudo tar xvzf tkn_0.13.1_Darwin_x86_64.tar.gz -C /usr/local/bin tkn
         set +x;
     else
         echo "unknown OS"
