@@ -26,11 +26,12 @@ kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboar
 set +x; echo
 
 
+### Commenting out as the GitLab script installs it
 # Ingress NGINX Ingress file
-set +x; echo "Install NGINX Ingress..."
-set -x
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
-set +x; echo
+#set +x; echo "Install NGINX Ingress..."
+#set -x
+#kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
+#set +x; echo
 
 
 sleep 30
@@ -63,7 +64,7 @@ if ! [ -x "$(command -v tkn)" ]; then
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         set -x;
-curl -LO https://github.com/tektoncd/cli/releases/download/v0.13.1/tkn_0.13.1_Darwin_x86_64.tar.gz
+        curl -LO https://github.com/tektoncd/cli/releases/download/v0.13.1/tkn_0.13.1_Darwin_x86_64.tar.gz
         sudo tar xvzf tkn_0.13.1_Darwin_x86_64.tar.gz -C /usr/local/bin tkn
         set +x;
     else

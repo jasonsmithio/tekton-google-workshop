@@ -42,6 +42,7 @@ gitlab_project_setup () {
   gcloud services enable compute.googleapis.com
   gcloud services enable containerregistry.googleapis.com
   gcloud services enable container.googleapis.com
+  gcloud services enable run.googleapis.com
   set +x; echo; set -x
 
   set +x; echo "Creating gitlab cluster..."
