@@ -67,6 +67,6 @@ spec:
             eventTypes:
               - Push Hook  # Only push events
       bindings:
-        - name: gitlab-push-binding
+        - ref: gitlab-push-binding
       template:
-        name: gitlab-trigger-template
+        ref: gitlab-trigger-template

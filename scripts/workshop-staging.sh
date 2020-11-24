@@ -41,6 +41,7 @@ gitlab_project_setup () {
   set -x
   gcloud services enable compute.googleapis.com
   gcloud services enable containerregistry.googleapis.com
+  gcloud services enable artifactregistry.googleapis.com
   gcloud services enable container.googleapis.com
   gcloud services enable run.googleapis.com
   set +x; echo; set -x
@@ -126,6 +127,7 @@ gcloud iam service-accounts add-iam-policy-binding \
   --role="roles/iam.serviceAccountUser"
 set +x; echo
 }
+
 
 #Main
 environment
