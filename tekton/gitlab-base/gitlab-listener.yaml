@@ -28,14 +28,9 @@ spec:
       - name: contenttype
         value: $(params.contenttype)
       resources:
-      - name: gitlab
-        resourceSpec:
-          type: git
-          params:
-          - name: revision
-            value: $(params.gitrevision)
-          - name: url
-            value: $(params.gitrepositoryurl)
+      - name: gitlab-repo
+        resourceRef:
+          name: gitlab-repo
       - name: gitlab-image
         resourceRef:
           name: gitlab-image

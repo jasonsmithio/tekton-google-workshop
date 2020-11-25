@@ -18,7 +18,7 @@ spec:
       default: /workspace/git/app/python
   resources:
     inputs:
-      - name: git
+      - name: gitlab-repo
         type: git
     outputs:
       - name: gitlab-image
@@ -37,7 +37,7 @@ spec:
         value: /builder/home/.docker/
     command:
       - /kaniko/executor
-    args: ["/kaniko/executor", "--dockerfile=$(params.dockerfilePath)", "--destination=$(resources.outputs.image.url", "--context=$(params.kanikoContextPath)"]
+    args: ["--dockerfile=$(params.dockerfilePath)", "--destination=$(resources.outputs.gitlab-image.url)", "--context=$(params.kanikoContextPath)"]
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -55,11 +55,10 @@ spec:
     - name: run
       image: gcr.io/cloud-builders/gcloud
       args:
-      - beta
       - run
       - deploy
-      - default
-      - --image=$(inputs.resources.image.url)
+      - my-example-app
+      - --image=$(inputs.resources.gitlab-image.url)
       - --region=us-central1
       - --platform=managed
       - --allow-unauthenticated

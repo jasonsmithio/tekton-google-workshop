@@ -4,7 +4,7 @@ metadata:
   name: gitlab-pipeline
 spec:
   resources:
-  - name: gitlab
+  - name: gitlab-repo
     type: git
   - name: gitlab-image
     type: image
@@ -16,11 +16,11 @@ spec:
       name: build-gitlab-app-task
     resources:
       inputs:
-      - name: gitlab
-        resource: git
+      - name: gitlab-repo
+        resource: gitlab-repo
       outputs:
       - name: gitlab-image
-        resource: image
+        resource: gitlab-image
   - name: deploy-gitlab-app
     taskRef:
       # The name of the task
@@ -28,4 +28,4 @@ spec:
     resources:
       inputs:
       - name: gitlab-image
-        resource: image
+        resource: gitlab-image

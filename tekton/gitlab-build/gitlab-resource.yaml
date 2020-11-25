@@ -2,13 +2,13 @@ apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
   # The name of the pipeline resource
-  name: gitlab
+  name: gitlab-repo
 spec:
   type: git
   params:
   # The revision/branch of the repository
   - name: revision
-    value: master
+    value: main
   # The URL of the repository
   - name: url
     value: YOUR_GITLAB_HERE
