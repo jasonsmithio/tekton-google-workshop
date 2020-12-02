@@ -60,18 +60,29 @@ gitlab_project_setup () {
   echo "Waiting for cluster bring up..."
   sleep 45
 
-  set +x; echo "Setting up external ip..."
+  set +x; echo "Setting up external ip for gitlab and tekton..."
   set -x
-  gcloud compute addresses create ${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID}
+  gcloud compute addresses create gitlab-${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID}
+  gcloud compute addresses create tekton-${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID}
   set +x; echo
 
-  export EXTERNAL_IP=$(gcloud compute addresses describe ${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID} --format='value(address)')
+# NGINX INGRESSS FOR GITLAB
+  export EXTERNAL_IP=$(gcloud compute addresses describe gitlab-${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID} --format='value(address)')
   echo 'your EXTERNAL IP is '${EXTERNAL_IP}
   echo "export EXTERNAL_IP=${EXTERNAL_IP}" >> env.sh
 
   export DOMAIN=${EXTERNAL_IP}'.xip.io'
-  echo 'your DOMAIN is '${DOMAIN}
+  echo 'your GITLAB DOMAIN is '${DOMAIN}
   echo "export DOMAIN=${DOMAIN}" >> env.sh
+
+# NGINX INGRESSS FOR TEKTON
+  export TEKTON_EXT_IP=$(gcloud compute addresses describe tekton-${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID} --format='value(address)')
+  echo 'your TEKTON_EXT_IP (Tekton External IP) is '${TEKTON_EXT_IP}
+  echo "export TEKTON_EXT_IP=${TEKTON_EXT_IP}" >> env.sh
+
+  export TEKTON_DOMAIN=${TEKTON_EXT_IP}'.xip.io'
+  echo 'your TEKTON_DOMAIN is '${TEKTON_DOMAIN}
+  echo "export TEKTON_DOMAIN=${TEKTON_DOMAIN}" >> env.sh
 
 
   set +x; echo "Installing gitlab into cluster.."
@@ -79,7 +90,7 @@ gitlab_project_setup () {
   helm repo add gitlab https://charts.gitlab.io/
   helm repo update
   helm upgrade --install gitlab gitlab/gitlab \
-    --set global.hosts.domain=${DOMAIN} \
+    --set global.hosts.domain=${GITLAB_DOMAIN} \
     --set certmanager-issuer.email=${EMAIL} \
     --set global.hosts.externalIP=${EXTERNAL_IP}
   set +x; echo
@@ -99,6 +110,12 @@ gitlab_project_setup () {
   set -x
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
   set +x; echo
+
+#Install Patch Ingress
+set +x; echo "Patch NGINX Ingress with Static IP ..."
+set -x
+kubectl patch svc ingress-nginx-controller -p '{"spec": {"loadBalancerIP": "'"$TEKTON_EXT_IP"'" }}' -n ingress-nginx
+
 
   set +x; echo "Set up bindings.."
   set -x
