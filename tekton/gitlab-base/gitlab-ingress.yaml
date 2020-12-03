@@ -2,13 +2,14 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: gitlab-tekton-ingress
-  #namespace: getting-started
+  namespace: tekton-pipelines
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  rules:
-    - http:
+  rules:  
+    - host: tekton-listener.TEKTON_DOMAIN
+      http:
         paths:
           - path: /
             backend:

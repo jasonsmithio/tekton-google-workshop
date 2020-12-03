@@ -25,29 +25,11 @@ set -x
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/latest/tekton-dashboard-release.yaml
 set +x; echo
 
-
-### Commenting out as the GitLab script installs it
-# Ingress NGINX Ingress file
-#set +x; echo "Install NGINX Ingress..."
-#set -x
-#kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
-#set +x; echo
-
+sed -i "s/TEKTON_DOMAIN/${TEKTON_DOMAIN}/g" tekton/gitlab-base/gitlab-ingress.yaml
+sed -i "s/TEKTON_DOMAIN/${TEKTON_DOMAIN}/g" tekton/resources/dashbord-ing.yaml
 
 sleep 30
 
-
-#Install service accounts
-#kubectl apply -f ../tekton/gitlab/role-resources/triggerbinding-roles
-#kubectl apply -f ../tekton/gitlab/role-resources/secret.yaml
-#kubectl apply -f ../tekton/gitlab/role-resources/serviceaccount.yaml
-
-## Install Event Listener
-#kubectl apply -f ../tekton/gitlab/gitlab-push-listener.yaml
-
-
-# Install GitLab Ingress
-#kubectl apply -f ../tekton/gitlab/gitlab-ingress.yaml
 
 #Install TKN CLI tool
 set +x; echo "Setting up external ip..."
