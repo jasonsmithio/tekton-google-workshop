@@ -7,7 +7,7 @@ spec:
   params:
   resources:
     inputs:
-      # The input resource(s) of the task, such as a GitHub repository
+      # The input resource(s) of the task, such as a Git repository
     outputs:
       # The output resource(s) of the task, such as an image built from the source code
   steps:
