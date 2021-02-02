@@ -71,9 +71,9 @@ gitlab_project_setup () {
   echo 'your EXTERNAL IP is '${EXTERNAL_IP}
   echo "export EXTERNAL_IP=${EXTERNAL_IP}" >> env.sh
 
-  export DOMAIN=${EXTERNAL_IP}'.xip.io'
-  echo 'your GITLAB DOMAIN is '${DOMAIN}
-  echo "export DOMAIN=${DOMAIN}" >> env.sh
+  export GITLAB_DOMAIN=${EXTERNAL_IP}'.xip.io'
+  echo 'your GITLAB DOMAIN is '${GITLAB_DOMAIN}
+  echo "export DOMAIN=${GITLAB_DOMAIN}" >> env.sh
 
 # NGINX INGRESSS FOR TEKTON
   export TEKTON_EXT_IP=$(gcloud compute addresses describe tekton-${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID} --format='value(address)')
