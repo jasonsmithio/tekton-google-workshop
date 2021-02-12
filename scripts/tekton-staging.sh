@@ -39,14 +39,14 @@ if ! [ -x "$(command -v tkn)" ]; then
     echo "***** Installing TKN CLI v0.8.0 *****"
     if [[ "$OSTYPE"  == "linux-gnu" ]]; then
         set -x;
-        curl -LO https://github.com/tektoncd/cli/releases/download/v0.13.1/tkn_0.13.1_Linux_x86_64.tar.gz
+        curl -LO https://github.com/tektoncd/cli/releases/download/v0.16.0/tkn_0.16.0_Linux_x86_64.tar.gz
         sudo tar xvzf tkn_0.13.1_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
         set +x;
 
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         set -x;
-        curl -LO https://github.com/tektoncd/cli/releases/download/v0.13.1/tkn_0.13.1_Darwin_x86_64.tar.gz
+        curl -LO https://github.com/tektoncd/cli/releases/download/v0.16.0/tkn_0.16.0_Darwin_x86_64.tar.gz
         sudo tar xvzf tkn_0.13.1_Darwin_x86_64.tar.gz -C /usr/local/bin tkn
         set +x;
     else
