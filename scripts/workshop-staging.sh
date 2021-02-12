@@ -159,4 +159,4 @@ set +x; echo
 
 echo 'your password is: ' $PASSWORD
 echo 'your username is: root'
-echo 'Please visit https://gitlab.'$DOMAIN 'in your browser'
+echo 'Please visit https://gitlab.'$GITLAB_DOMAIN 'in your browser'

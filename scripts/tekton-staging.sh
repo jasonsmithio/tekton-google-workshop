@@ -26,7 +26,7 @@ kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboar
 set +x; echo
 
 sed -i "s/TEKTON_DOMAIN/${TEKTON_DOMAIN}/g" tekton/gitlab-base/gitlab-ingress.yaml
-sed -i "s/TEKTON_DOMAIN/${TEKTON_DOMAIN}/g" tekton/resources/dashbord-ing.yaml
+sed -i "s/TEKTON_DOMAIN/${TEKTON_DOMAIN}/g" tekton/resources/dashboard-ing.yaml
 
 sleep 30
 
