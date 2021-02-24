@@ -36,7 +36,7 @@ set +x; echo "Setting up external ip..."
 mkdir ~/.tkncli
 cd ~/.tkncli
 if ! [ -x "$(command -v tkn)" ]; then
-    echo "***** Installing TKN CLI v0.8.0 *****"
+    echo "***** Installing TKN CLI v0.16.0 *****"
     if [[ "$OSTYPE"  == "linux-gnu" ]]; then
         set -x;
         curl -LO https://github.com/tektoncd/cli/releases/download/v0.16.0/tkn_0.16.0_Linux_x86_64.tar.gz
