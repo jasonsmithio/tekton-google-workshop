@@ -21,7 +21,7 @@ environment () {
 
   [[ -f "${DIR}/env.sh" ]] && echo "Importing environment from ${DIR}/env.sh..." && . ${DIR}/env.sh
   echo "Writing ${DIR}/env.sh..."
-  cat > ${DIR}/env.sh << EOF
+  cat >> ${DIR}/env.sh << EOF
 export REGION=${REGION}
 export ZONE=${ZONE}
 export CLUSTER_NAME=${CLUSTER_NAME}
@@ -69,20 +69,20 @@ gitlab_project_setup () {
 # NGINX INGRESSS FOR GITLAB
   export EXTERNAL_IP=$(gcloud compute addresses describe gitlab-${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID} --format='value(address)')
   echo 'your EXTERNAL IP is '${EXTERNAL_IP}
-  echo "export EXTERNAL_IP=${EXTERNAL_IP}" >> env.sh
+  echo "export EXTERNAL_IP=${EXTERNAL_IP}" >> ${DIR}/env.sh
 
   export GITLAB_DOMAIN=${EXTERNAL_IP}'.xip.io'
   echo 'your GITLAB DOMAIN is '${GITLAB_DOMAIN}
-  echo "export DOMAIN=${GITLAB_DOMAIN}" >> env.sh
+  echo "export DOMAIN=${GITLAB_DOMAIN}" >> ${DIR}/env.sh
 
 # NGINX INGRESSS FOR TEKTON
   export TEKTON_EXT_IP=$(gcloud compute addresses describe tekton-${CLUSTER_NAME}-external-ip --region ${REGION} --project ${PROJECT_ID} --format='value(address)')
   echo 'your TEKTON_EXT_IP (Tekton External IP) is '${TEKTON_EXT_IP}
-  echo "export TEKTON_EXT_IP=${TEKTON_EXT_IP}" >> env.sh
+  echo "export TEKTON_EXT_IP=${TEKTON_EXT_IP}" >> ${DIR}/env.sh
 
   export TEKTON_DOMAIN=${TEKTON_EXT_IP}'.xip.io'
   echo 'your TEKTON_DOMAIN is '${TEKTON_DOMAIN}
-  echo "export TEKTON_DOMAIN=${TEKTON_DOMAIN}" >> env.sh
+  echo "export TEKTON_DOMAIN=${TEKTON_DOMAIN}" >> ${DIR}/env.sh
 
 
   set +x; echo "Installing gitlab into cluster.."

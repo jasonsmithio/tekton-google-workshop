@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 [[ -f "${DIR}/env.sh" ]] && echo "Importing environment from ${DIR}/env.sh..." && . ${DIR}/env.sh
 
 set +x; echo "Connect to cluster..."
