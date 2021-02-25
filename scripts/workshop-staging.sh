@@ -44,6 +44,10 @@ gitlab_project_setup () {
   gcloud services enable artifactregistry.googleapis.com
   gcloud services enable container.googleapis.com
   gcloud services enable run.googleapis.com
+  gcloud services enable cloudbuild.googleapis.com
+  gcloud services enable datastore.googleapis.com
+  gcloud services enable firestore.googleapis.com
+
   set +x; echo; set -x
 
   set +x; echo "Creating gitlab cluster..."
@@ -135,12 +139,30 @@ set -x
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member "serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
   --role roles/cloudbuild.builds.editor
+set +x; echo
 
 # Grant the IAM Service Account User role to the Cloud Build service account on the Cloud Run runtime service account
 set -x
 gcloud iam service-accounts add-iam-policy-binding \
   ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com \
   --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+  --role="roles/iam.serviceAccountUser"
+set +x; echo
+
+
+
+# Grant the Cloud Run Admin role to the Cloud Build service account
+set -x
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member "serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" \
+  --role roles/run.admin
+set +x; echo
+
+# Grant the IAM Service Account User role to the Cloud Build service account on the Cloud Run runtime service account
+set -x
+gcloud iam service-accounts add-iam-policy-binding \
+  ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com \
+  --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" \
   --role="roles/iam.serviceAccountUser"
 set +x; echo
 }
