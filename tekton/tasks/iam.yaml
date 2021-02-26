@@ -14,11 +14,12 @@ spec:
     - name: iam
       image: gcr.io/cloud-builders/gcloud
       args:
+      - beta
       - run
       - services
       - add-iam-policy-binding
-      - my-example-app
       - --member="allUsers"
       - --role="roles/run.invoker"
-      - --region=us-central1
-      - --platform=managed
+      - --region="us-central1"
+      - --platform="managed"
+      - my-example-app
