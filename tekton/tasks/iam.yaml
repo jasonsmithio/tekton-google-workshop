@@ -18,8 +18,8 @@ spec:
       - run
       - services
       - add-iam-policy-binding
-      - --member="allUsers"
-      - --role="roles/run.invoker"
-      - --region="us-central1"
-      - --platform="managed"
+      - --member=allUsers
+      - --role=roles/run.invoker
+      - --region=us-central1
+      - --platform=managed
       - my-example-app
