@@ -39,6 +39,7 @@ gitlab_project_setup () {
 
   set +x; echo "Enabling APIs..."
   set -x
+  gcloud services enable iam.googleapis.com
   gcloud services enable compute.googleapis.com
   gcloud services enable containerregistry.googleapis.com
   gcloud services enable artifactregistry.googleapis.com
@@ -149,7 +150,21 @@ gcloud iam service-accounts add-iam-policy-binding \
   --role="roles/iam.serviceAccountUser"
 set +x; echo
 
+# Grant the Cloud Run Admin role to the compute service account
 
+set -x
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member "serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+  --role roles/run.admin
+set +x; echo
+
+# Grant the IAM Service Account User role to the Compute service account on the Cloud Run runtime service account
+set -x
+gcloud iam service-accounts add-iam-policy-binding \
+  ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com \
+  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+  --role="roles/iam.serviceAccountUser"
+set +x; echo
 
 # Grant the Cloud Run Admin role to the Cloud Build service account
 set -x
