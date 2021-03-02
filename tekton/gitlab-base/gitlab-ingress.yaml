@@ -13,5 +13,5 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: el-gitlab-elistener # REPLACE WITH YOUR SERVICE NAME FROM STEP 2
+              serviceName: el-gitlab-elistener
               servicePort: 8080
