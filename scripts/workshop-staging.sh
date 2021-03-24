@@ -97,7 +97,7 @@ gitlab_project_setup () {
   helm upgrade --install gitlab gitlab/gitlab \
     --set global.hosts.domain=${GITLAB_DOMAIN} \
     --set certmanager.install=false \
-    #--set certmanager-issuer.email=${EMAIL} \
+    --set certmanager-issuer.email=${EMAIL} \
     --set global.hosts.externalIP=${EXTERNAL_IP}
   set +x; echo
 
