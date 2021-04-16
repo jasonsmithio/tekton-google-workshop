@@ -38,18 +38,18 @@ set +x; echo "Setting up external ip..."
 mkdir ~/.tkncli
 cd ~/.tkncli
 if ! [ -x "$(command -v tkn)" ]; then
-    echo "***** Installing TKN CLI v0.16.0 *****"
+    echo "***** Installing TKN CLI v0.17.2 *****"
     if [[ "$OSTYPE"  == "linux-gnu" ]]; then
         set -x;
-        curl -LO https://github.com/tektoncd/cli/releases/download/v0.16.0/tkn_0.16.0_Linux_x86_64.tar.gz
-        sudo tar xvzf tkn_0.16.0_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
+        curl -LO https://github.com/tektoncd/cli/releases/download/v0.17.2/tkn_17.2_Linux_x86_64.tar.gz
+        sudo tar xvzf tkn_0.17.2_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
         set +x;
 
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         set -x;
-        curl -LO https://github.com/tektoncd/cli/releases/download/v0.16.0/tkn_0.16.0_Darwin_x86_64.tar.gz
-        sudo tar xvzf tkn_0.16.0_Darwin_x86_64.tar.gz -C /usr/local/bin tkn
+        curl -LO https://github.com/tektoncd/cli/releases/download/v0.17.2/tkn_0.17.2_Darwin_x86_64.tar.gz
+        sudo tar xvzf tkn_0.17.2_Darwin_x86_64.tar.gz -C /usr/local/bin tkn
         set +x;
     else
         echo "unknown OS"
