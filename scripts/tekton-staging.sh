@@ -18,7 +18,8 @@ set +x; echo
 # Install Tekton Triggers
 set +x; echo "Install Tekton Triggers..."
 set -x
-kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml
+kubectl apply -f https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml
+kubectl apply -f https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml
 set +x; echo
 
 # Install Tekton Dashboard

@@ -62,6 +62,6 @@ spec:
             eventTypes:
               - Push Hook  # Only push events
       bindings:
-        - ref: gitlab-push-binding
+        - ref: tekton-triggers-gitlab-binding
       template:
         ref: gitlab-trigger-template
