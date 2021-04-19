@@ -10,22 +10,22 @@ gcloud container clusters get-credentials gitlab-cluster --zone ${ZONE} --projec
 set +x; echo
 
 # Install Tekton Pipelines
-set +x; echo "Install Tekton Pipelines..."
+set +x; echo "Install Tekton Pipelines v0.230..."
 set -x
-kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.23.0/release.yaml
 set +x; echo
 
 # Install Tekton Triggers
-set +x; echo "Install Tekton Triggers..."
+set +x; echo "Install Tekton Triggers v0.13.0..."
 set -x
-kubectl apply -f https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml
-kubectl apply -f https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml
+kubectl apply -f https://github.com/tektoncd/triggers/releases/download/v0.13.0/release.yaml
+kubectl apply -f https://github.com/tektoncd/triggers/releases/download/v0.13.0/interceptors.yaml
 set +x; echo
 
 # Install Tekton Dashboard
-set +x; echo "Install Tekton Dashboard..."
+set +x; echo "Install Tekton Dashboard v0.16.0..."
 set -x
-kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/latest/tekton-dashboard-release.yaml
+kubectl apply --filename https://github.com/tektoncd/dashboard/releases/download/v0.16.0/tekton-dashboard-release.yaml
 set +x; echo
 
 sed -i "s/TEKTON_DOMAIN/${TEKTON_DOMAIN}/g" tekton/gitlab-base/gitlab-ingress.yaml
@@ -42,7 +42,7 @@ if ! [ -x "$(command -v tkn)" ]; then
     echo "***** Installing TKN CLI v0.17.2 *****"
     if [[ "$OSTYPE"  == "linux-gnu" ]]; then
         set -x;
-        curl -LO https://github.com/tektoncd/cli/releases/download/v0.17.2/tkn_17.2_Linux_x86_64.tar.gz
+        curl -LO https://github.com/tektoncd/cli/releases/download/v0.17.2/tkn_0.17.2_Linux_x86_64.tar.gz
         sudo tar xvzf tkn_0.17.2_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
         set +x;
 
