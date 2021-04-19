@@ -57,11 +57,11 @@ spec:
       interceptors:
         - gitlab:
             secretRef:
-              secretName: gitlab-secret
+              secretName: tekton-gitlab-secret
               secretKey: secretToken
             eventTypes:
               - Push Hook  # Only push events
       bindings:
-        - ref: tekton-triggers-gitlab-binding
+        - ref: gitlab-push-binding
       template:
         ref: gitlab-trigger-template
