@@ -18,3 +18,4 @@ tekton-old/
 gitlab-old/
 onelistener.yaml
 listener.yaml
+.kube/
