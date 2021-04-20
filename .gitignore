@@ -20,4 +20,4 @@ onelistener.yaml
 listener.yaml
 demo/
 .kube/
-.kube
+.kube/config
